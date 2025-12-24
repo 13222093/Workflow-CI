@@ -26,23 +26,33 @@ jobs:
       with:
         python-version: '3.12'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install mlflow==2.19.0 pandas numpy scikit-learn imbalanced-learn xgboost matplotlib seaborn
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        auto-activate-base: true
+        python-version: '3.12'
+        miniconda-version: "latest"
 
-    - name: Run training script
+    - name: Install MLflow
+      shell: bash -l {0}
+      run: |
+        conda install -c conda-forge mlflow=2.19.0 -y
+
+    - name: Run MLflow Project
+      shell: bash -l {0}
       working-directory: MLProject
       env:
-        MLFLOW_TRACKING_URI: file:./mlruns
+        MLFLOW_TRACKING_URI: file:${{ github.workspace }}/mlruns
       run: |
-        python modelling.py \
-          --data-path ethereum_fraud_preprocessing.csv \
-          --n-estimators 100 \
-          --max-depth 6 \
-          --learning-rate 0.1 \
-          --test-size 0.2 \
-          --random-state 42
+        mlflow run . \
+          --experiment-name "Ethereum_Fraud_CI_CD" \
+          --env-manager conda \
+          -P data_path=ethereum_fraud_preprocessing.csv \
+          -P n_estimators=100 \
+          -P max_depth=6 \
+          -P learning_rate=0.1 \
+          -P test_size=0.2 \
+          -P random_state=42
 
     - name: Upload model artifacts
       uses: actions/upload-artifact@v4
