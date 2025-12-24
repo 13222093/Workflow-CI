@@ -39,6 +39,8 @@ jobs:
 
     - name: Run MLflow Project
       shell: bash -l {0}
+      env:
+        MLFLOW_TRACKING_URI: file:./mlruns
       run: |
         cd MLProject
         mlflow run . \
