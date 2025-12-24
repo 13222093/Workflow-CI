@@ -177,7 +177,7 @@ def train_model(X_train, X_test, y_train, y_test, feature_names,
         print(f"Feature importance saved: {fi_file}")
 
     # Log model
-    mlflow.xgboost.log_model(model, "xgboost_model")
+    mlflow.sklearn.log_model(model, "xgboost_model")
 
     # Save model locally
     model_path = 'xgboost_fraud_model.pkl'
