@@ -1,0 +1,14 @@
+name: Ethereum_Fraud_Detection_CI
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      data_path: {type: str, default: "ethereum_fraud_preprocessing.csv"}
+      n_estimators: {type: int, default: 100}
+      max_depth: {type: int, default: 6}
+      learning_rate: {type: float, default: 0.1}
+      test_size: {type: float, default: 0.2}
+      random_state: {type: int, default: 42}
+    command: "python modelling.py --data-path {data_path} --n-estimators {n_estimators} --max-depth {max_depth} --learning-rate {learning_rate} --test-size {test_size} --random-state {random_state}"
