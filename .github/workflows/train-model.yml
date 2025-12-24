@@ -26,28 +26,23 @@ jobs:
       with:
         python-version: '3.12'
 
-    - name: Setup Miniconda
-      uses: conda-incubator/setup-miniconda@v3
-      with:
-        auto-activate-base: true
-        python-version: '3.12'
-
-    - name: Install MLflow
-      shell: bash -l {0}
+    - name: Install dependencies
       run: |
-        pip install mlflow
+        python -m pip install --upgrade pip
+        pip install mlflow==2.19.0 pandas numpy scikit-learn imbalanced-learn xgboost matplotlib seaborn
 
-    - name: Run MLflow Project
-      shell: bash -l {0}
+    - name: Run training script
+      working-directory: MLProject
       env:
         MLFLOW_TRACKING_URI: file:./mlruns
       run: |
-        cd MLProject
-        mlflow run . \
-          --experiment-name "Ethereum_Fraud_CI_CD" \
-          -P n_estimators=100 \
-          -P max_depth=6 \
-          -P learning_rate=0.1
+        python modelling.py \
+          --data-path ethereum_fraud_preprocessing.csv \
+          --n-estimators 100 \
+          --max-depth 6 \
+          --learning-rate 0.1 \
+          --test-size 0.2 \
+          --random-state 42
 
     - name: Upload model artifacts
       uses: actions/upload-artifact@v4
@@ -58,6 +53,13 @@ jobs:
           MLProject/scaler_trained.pkl
           MLProject/confusion_matrix.png
           MLProject/feature_importance.png
+        retention-days: 30
+
+    - name: Upload MLflow artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: mlflow-artifacts
+        path: MLProject/mlruns/
         retention-days: 30
 
     - name: Create model release (on main branch only)
