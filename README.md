@@ -2,7 +2,7 @@
 
 ## Project: Ethereum Fraud Detection - CI/CD Pipeline
 
-This repository contains **Kriteria 3** (CI/CD Workflow) for the Machine Learning System submission.
+CI/CD Workflow repository for the Dicoding Course - Building Machine Learning System submission.
 
 ---
 
@@ -149,16 +149,6 @@ mlflow run MLProject \
 
 ---
 
-## 📝 Kriteria 3 Level: **Skilled (3 points)**
-
-### Requirements Met:
-
-- ✅ **Basic (2 pts):** MLflow Project + GitHub Actions workflow
-- ✅ **Skilled (3 pts):** Artifacts saved via GitHub Actions
-- ⬜ **Advanced (4 pts):** Docker image to Docker Hub (optional)
-
----
-
 ## 🧪 Manual Testing
 
 **Test the workflow manually on GitHub:**
@@ -169,21 +159,6 @@ mlflow run MLProject \
 4. Click "Run workflow" → Select branch `main` → Click "Run workflow"
 5. Wait ~5 minutes for completion
 6. Download artifacts from the run page
-
-✅ Green checkmark = workflow successful!
-
----
-
-## 📊 Expected Results
-
-After successful workflow run:
-
-**Metrics (typical):**
-- Accuracy: ~95%
-- Precision: ~93%
-- Recall: ~94%
-- F1-Score: ~93%
-- ROC-AUC: ~98%
 
 **Artifacts:**
 - Model file: ~50 KB
